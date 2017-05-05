@@ -12,4 +12,8 @@ The rest of the columns can be found in the "features_info.txt" file found in th
 
 The tidy dataset contains only those features that are a mean or standard deviation of some kind.
 
-The values in the feature columns are the mean of the values in the original dataset, grouped by subjectLabel, and Activity.
+The values in the feature columns are the mean of the values in the original dataset, grouped by subjectLabel, Activity, and SubjectLabel + Activity.
+
+Note that when the data is grouped by activity only, then the SubjectLabel value is "AllSubjects".
+
+Note that when the data is grouped by subject only, then the ActibityName value is "AllActivities".

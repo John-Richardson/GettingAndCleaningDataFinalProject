@@ -83,8 +83,21 @@ colsOfInterest<-allData[,c(
 dt<-data.table(colsOfInterest)
 dt[,SourceName:=NULL]
 
-#get the means of all the values required
-tidyDataSet<-dt[, lapply(.SD, mean), by=c("ActivityName","SubjectLabel")]
+#get the means of values grouped at various levels
+groupedByActivityAndSubjectLabel<-dt[, lapply(.SD, mean), by=c("ActivityName","SubjectLabel")]
+
+noSubjectLevels<-copy(dt)
+noSubjectLevels<-noSubjectLevels[,SubjectLabel:=NULL]
+groupedByActivity<-noSubjectLevels[, lapply(.SD, mean), by=c("ActivityName")]
+groupedByActivity[,SubjectLabel:="AllSubjects"]
+
+noActivityNames<-copy(dt)
+noActivityNames<-noActivityNames[,ActivityName:=NULL]
+groupedBySubjectLabel<-noActivityNames[, lapply(.SD, mean), by=c("SubjectLabel")]
+groupedBySubjectLabel[,ActivityName:="AllActivities"]
+
+#merge all the grouped values back together
+tidyDataSet<-rbind(groupedByActivityAndSubjectLabel, groupedByActivity, groupedBySubjectLabel)
 
 write.table(tidyDataSet, file="TidyDataSet")
 
@@ -92,7 +105,8 @@ write.table(tidyDataSet, file="TidyDataSet")
 rm(allData, colsOfInterest, dt, testSet, trainSet, 
    testSubjectLabels, testX, testY, 
    trainSubjectLabels, trainX, trainY, 
-   tidyData)
+   tidyData, tidyDataSet, groupedByActivity, groupedBySubjectLabel, groupedByActivityAndSubjectLabel,
+   noActivityNames, noSubjectLevels)
 
 #use the following snippet to read the file in if you want to view it in R
 
