@@ -36,4 +36,5 @@ The tidy data set will be produced into that folder in a file called "TidyDataSe
 You can read in the file directly using the following R snippet
 
 data<-read.table("TidyDataSet", header = TRUE, check.names = FALSE)
+
 View(data)
